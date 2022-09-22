@@ -1,5 +1,5 @@
 from data_structure import CompoundInfo
-
+import utilities
 
 def get_fake_data(query_name):
     """This should be replaced by PubChem query"""
@@ -13,3 +13,7 @@ def get_fake_data(query_name):
     )
 
     return data
+
+def get_data(query, query_id_type):
+    url = utilities.get_url(utilities._get_cid(identifier, id_type)[0])
+
