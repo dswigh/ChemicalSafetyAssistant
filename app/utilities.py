@@ -63,6 +63,6 @@ def get_hazard_info(data):
 
         return hcodes, hcodes_descriptions, pictures
     except UnboundLocalError:
-        return 'Nothing found', None, None
+        return None, None, None
 
 

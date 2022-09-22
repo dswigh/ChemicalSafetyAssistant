@@ -7,7 +7,7 @@ query_id_type = st.selectbox("query type", query_id_types)
 
 if len(query) > 0 :
 
-    d = get_data(query, query_id_type)
+    df, hcode_descriptions, hcode_pics = get_data(query, query_id_type)
     # d = get_fake_data(query)
 
     st.header(f'Information on {query}:')
@@ -18,24 +18,16 @@ if len(query) > 0 :
     st.write(f'density: {d.density} g/ml')
     st.write(f'hazard codes: {d.hazard_codes}')
 
-    st.subheader(f'Hazard code explanations')
-    
-    # for pic in d.hazard_image_urls:
-    #     st.image(pic)
+    if len(d.hazard_code_descriptions) > 0:
+        with st.expander(f'Hazard code explanations'):
+        
+            cols = st.columns(len(d.hazard_image_urls))
+            for img, col in zip(d.hazard_image_urls, cols):
+                with col:
+                    st.image(img)
 
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.image(d.hazard_image_urls[0])
-    with col2:
-        st.image(d.hazard_image_urls[1])
-
-
-
-
-
-    for expl in d.hazard_code_descriptions:
-        st.write(expl)
+            for expl in d.hazard_code_descriptions:
+                st.write(expl)
 
 else:
     print('Enter chemical name to find information')
