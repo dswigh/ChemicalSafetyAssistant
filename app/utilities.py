@@ -59,5 +59,5 @@ def get_hazard_info(data):
         picture = section['URL']
         pictures += [picture]
         
-    return [hcodes, hcodes_descriptions, pictures]
+    return hcodes, hcodes_descriptions, pictures
 
