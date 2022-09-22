@@ -22,7 +22,7 @@ def _get_cid(identifier, id_type):
     
     else:
         cid = pcp.get_cids(identifier, id_type)
-        return cid 
+        return cid[0]
 
 def get_json(url):
  
@@ -42,22 +42,27 @@ def get_hazard_info(data):
 
     for i in range(len(data['Record']['Section'])):
         if data['Record']['Section'][i]['TOCHeading'] == 'Safety and Hazards':
-            for i in range(len(data['Record']['Section'][11]['Section'][0]['Section'][0]['Information'])):
-                if data['Record']['Section'][11]['Section'][0]['Section'][0]['Information'][i]['Name'] == 'ECHA C&L Notifications Summary':
-                    pictures_json = data['Record']['Section'][11]['Section'][0]['Section'][0]['Information'][i-4]
-                    hcodes_json = data['Record']['Section'][11]['Section'][0]['Section'][0]['Information'][i-2]
+            for j in range(len(data['Record']['Section'][i]['Section'][0]['Section'][0]['Information'])):
+                if data['Record']['Section'][i]['Section'][0]['Section'][0]['Information'][j]['Name'] == 'ECHA C&L Notifications Summary':
+                    pictures_json = data['Record']['Section'][i]['Section'][0]['Section'][0]['Information'][j-4]
+                    hcodes_json = data['Record']['Section'][i]['Section'][0]['Section'][0]['Information'][j-2]
     hcodes = []
     hcodes_descriptions = []
-    for section in hcodes_json['Value']['StringWithMarkup']:
-        hcode = section['String'][:4]
-        hcode_description = section['String']
-        hcodes += [hcode]
-        hcodes_descriptions += [hcode_description]
     
-    pictures = []
-    for section in pictures_json['Value']['StringWithMarkup'][0]['Markup']:
-        picture = section['URL']
-        pictures += [picture]
-        
-    return hcodes, hcodes_descriptions, pictures
+    try:
+        for section in hcodes_json['Value']['StringWithMarkup']:
+            hcode = section['String'][:4]
+            hcode_description = section['String']
+            hcodes += [hcode]
+            hcodes_descriptions += [hcode_description]
+
+        pictures = []
+        for section in pictures_json['Value']['StringWithMarkup'][0]['Markup']:
+            picture = section['URL']
+            pictures += [picture]
+
+        return hcodes, hcodes_descriptions, pictures
+    except UnboundLocalError:
+        return 'Nothing found', None, None
+
 
