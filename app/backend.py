@@ -16,7 +16,7 @@ def get_data(query, query_id_type):
     
     df = pd.DataFrame(columns=col_names) 
     row = pd.Series(
-        {   query : f"{query}",
+        {   "query" : f"{query}",
             "name": ut.get_name(json),
             "SMILES": ut.get_SMILES(json),
             "mol wt" : ut.get_MW(json),
