@@ -12,4 +12,4 @@ def get_fake_data(query_name):
         hazard_codes = ['H123', 'H455']
     )
 
-    return dat
+    return data
