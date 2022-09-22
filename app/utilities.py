@@ -65,4 +65,78 @@ def get_hazard_info(data):
     except UnboundLocalError:
         return None, None, None
 
+def get_name(data):
+    mol_name = data['Record']['RecordTitle']
+    print('Molecule name: ' + mol_name)
 
+
+def get_SMILES(data):
+    result = None
+    ref_dict = data['Record']['Section']
+    for i in range(len(ref_dict)):
+        if (ref_dict[i]['TOCHeading'] == 'Names and Identifiers'):
+            path_1 = data['Record']['Section'][i]['Section']
+            for j in range(len(path_1)):
+                if (path_1[j]['TOCHeading'] == 'Computed Descriptors'):
+                    path_2 = path_1[j]['Section']
+                    for k in range(len(path_2)):
+                        if (path_2[k]['TOCHeading'] == 'Canonical SMILES'):
+                            result = path_2[k]['Information'][0]['Value']['StringWithMarkup'][0]['String']
+                            #print('SMILES: ' + result)
+    return result
+
+
+
+def get_CAS(data):
+    result = None
+    ref_dict = data['Record']['Section']
+    for i in range(len(ref_dict)):
+        if (ref_dict[i]['TOCHeading'] == 'Names and Identifiers'):
+            path_1 = data['Record']['Section'][i]['Section']
+            for j in range(len(path_1)):
+                if (path_1[j]['TOCHeading'] == 'Other Identifiers'):
+                    path_2 = path_1[j]['Section']
+                    for k in range(len(path_2)):
+                        if (path_2[k]['TOCHeading'] == 'CAS'):
+                            result = path_2[k]['Information'][0]['Value']['StringWithMarkup'][0]['String']
+                            # print('CAS ' + result)
+    return result
+
+
+def get_MW(data):
+    result = None
+    ref_dict = data['Record']['Section']
+    for i in range(len(ref_dict)):
+        if (ref_dict[i]['TOCHeading'] == 'Chemical and Physical Properties'):
+            path_1 = data['Record']['Section'][i]['Section']
+            for j in range(len(path_1)):
+                if (path_1[j]['TOCHeading'] == 'Computed Properties'):
+                    path_2 = path_1[j]['Section']
+                    for k in range(len(path_2)):
+                        if (path_2[k]['TOCHeading'] == 'Molecular Weight'):
+                            result = path_2[k]['Information'][0]['Value']['StringWithMarkup'][0]['String']
+                            # print('Molecular weight: ' + result)
+    return result
+
+
+
+def get_density(data):
+    result = None
+    ref_dict = data['Record']['Section']
+    for i in range(len(ref_dict)):
+        if (ref_dict[i]['TOCHeading'] == 'Chemical and Physical Properties'):
+            path_1 = data['Record']['Section'][i]['Section']
+            for j in range(len(path_1)):
+                if (path_1[j]['TOCHeading'] == 'Experimental Properties'):
+                    path_2 = path_1[j]['Section']
+                    for k in range(len(path_2)):
+                        if (path_2[k]['TOCHeading'] == 'Density'):
+                            result = path_2[k]['Information'][0]['Value']['StringWithMarkup'][0]['String']
+                            # print('Density: ' + result)
+    return result
+
+
+def get_moles(data,mass):
+    mw = get_MW(data)
+    moles = mass/mw
+    return moles
