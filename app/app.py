@@ -17,12 +17,10 @@ if len(queries) > 0:
 
     # do multiple pics
     cols = st.columns(len(structure_pics))
-    for pic, name, col in zip(structure_pics, list(df["name"]), cols):
+    for pic, name, col in zip(structure_pics, list(df.index), cols):
         with col:
             st.image(pic, caption=name)
 
-    df = df.set_index("name")
-    print(df)
     st.write(df)
 
     if len(hcode_descriptions) > 0:
