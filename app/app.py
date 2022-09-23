@@ -16,7 +16,7 @@ query_id_type = st.selectbox("Chemical identifier", query_id_types)
 queries = parse_query(orig_query)
 
 
-mass_query = st.checkbox('Include mass calculation?')
+mass_query = st.checkbox('Calculate mass?')
 moles = get_moles(mass_query, queries)
 
 
@@ -34,10 +34,11 @@ if len(queries) > 0:
     st.header(f"Information on {', '.join(df.index.tolist())}:" )
 
     # do multiple pics
-    cols = st.columns(len(structure_pics))
-    for pic, name, col in zip(structure_pics, list(df.index), cols):
-        with col:
-            st.image(pic, caption=name)
+    if len(structure_pics) > 0:
+        cols = st.columns(len(structure_pics))
+        for pic, name, col in zip(structure_pics, list(df.index), cols):
+            with col:
+                st.image(pic, caption=name)
 
     st.write(df)
 

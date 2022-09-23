@@ -13,7 +13,7 @@ def get_moles(mass_query, queries):
     if mass_query:
         moles = []
         for i in queries:
-            amount = st.text_input(f'Amount of compound {i} (mol)', value="")
+            amount = st.text_input(f'Amount of {i} (mol)', value="")
             if amount != "":
                 amount = float(amount)
                 moles.append(amount)
