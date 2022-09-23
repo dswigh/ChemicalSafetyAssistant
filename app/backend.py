@@ -1,6 +1,7 @@
 import pandas as pd
 import utilities as ut
 from json import JSONDecodeError
+import re
 
 
 col_names = ["name", "mol wt", "CAS", "density", "hazard codes"]
@@ -50,11 +51,24 @@ def get_data(queries, query_id_type):
     # make hazard codes and explanations only_appear once
     all_hcodes = list(set(all_hcodes))
     all_hcodes = [hc for hc in all_hcodes if hc != "None found"]
+    all_hcode_desc = parse_out_percentages(all_hcode_desc)
     all_hcode_desc = list(set(all_hcode_desc))
     assert len(all_hcodes) == len(all_hcode_desc), f"got different number of hazard codes ({len(all_hcodes)}, {all_hcodes}) and their explanations ({len(all_hcode_desc)}, {all_hcode_desc}) "
     all_hazard_pics = list(set(all_hazard_pics))
 
     return df, all_hcode_desc, all_hazard_pics, structure_images
+
+def parse_out_percentages(all_desc):
+    desc_out = []
+    pat = re.compile(r'(\([\d.%]+\))')
+    for desc in all_desc:
+        percentage = pat.search(desc).groups()[0]
+        desc = desc.replace(percentage, "")
+        desc_out.append(desc)
+    print(desc_out)
+    return desc_out
+
+
 
 def parse_query(query):
     query = query.strip()

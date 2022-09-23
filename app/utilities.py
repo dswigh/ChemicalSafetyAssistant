@@ -141,10 +141,7 @@ def get_density(data):
                         if (path_2[k]['TOCHeading'] == 'Density'):
                             result = path_2[k]['Information'][0]['Value']['StringWithMarkup'][0]['String']
                             # print('Density: ' + result)
-    # result = remove_source(result)
     return result
-
-# def remove_source(result):
 
 
 
