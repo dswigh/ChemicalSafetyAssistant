@@ -2,11 +2,13 @@ import streamlit as st
 from backend import get_data
 from utilities import query_id_types
 
+st.title("Virtual Safety Assistant")
+st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")
+
 query = st.text_input("query", value="")
 query_id_type = st.selectbox("query type", query_id_types)
 
-if len(query) > 0 :
-
+if len(query) > 0: 
     df, hcode_descriptions, hcode_pics, structure_pic = get_data(query, query_id_type)
 
     st.header(f'Information on {query}:')
@@ -28,5 +30,8 @@ if len(query) > 0 :
 
 else:
     print('Enter chemical name to find information')
+    
+
+
 
 
