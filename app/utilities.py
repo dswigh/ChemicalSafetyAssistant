@@ -9,7 +9,7 @@ class UnknownChemical(Exception):
     pass
 
 
-query_id_types = ['name', 'CAS', 'smiles', 'sdf', 'inchi', 'inchikey', 'cid']
+query_id_types = ['name', 'CAS', 'smiles', 'inchi', 'inchikey', 'cid']
 
 def get_url(cid):
     
