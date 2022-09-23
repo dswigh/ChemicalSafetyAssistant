@@ -3,6 +3,9 @@ from backend import get_data, parse_query
 from utilities import query_id_types
 from utilities import UnknownChemical
 
+cols = st.columns(4)
+with cols[-1]:
+    st.image('logo.png')
 
 st.title("Chemical Safety Assistant")
 #st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")
@@ -57,8 +60,9 @@ if len(queries) > 0:
             for expl in hcode_descriptions:
                 st.write(expl)
 
-else:
-    print('Enter chemical name to find information')
+
+st.markdown("---")
+st.markdown("Ran into problems? Raise an issue on [CSA's GitHub page](https://github.com/dswigh/ChemicalSafetyAssistant)")
     
 
 
