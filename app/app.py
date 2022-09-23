@@ -1,20 +1,28 @@
 import streamlit as st
-from backend import get_data
+from backend import get_data, parse_query
 from utilities import query_id_types
 
 st.title("Virtual Safety Assistant")
 st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")
 
-query = st.text_input("query", value="")
+orig_query = st.text_input("query", value="")
 query_id_type = st.selectbox("query type", query_id_types)
+queries = parse_query(orig_query)
 
-if len(query) > 0: 
-    df, hcode_descriptions, hcode_pics, structure_pic = get_data(query, query_id_type)
+if len(queries) > 0: 
 
-    st.header(f'Information on {query}:')
+    df, hcode_descriptions, hcode_pics, structure_pics = get_data(queries, query_id_type)
 
-    st.image(structure_pic)
+    st.header(f'Information on {orig_query}:')
 
+    # do multiple pics
+    cols = st.columns(len(structure_pics))
+    for pic, name, col in zip(structure_pics, list(df["name"]), cols):
+        with col:
+            st.image(pic, caption=name)
+
+    df = df.set_index("name")
+    print(df)
     st.write(df)
 
     if len(hcode_descriptions) > 0:
