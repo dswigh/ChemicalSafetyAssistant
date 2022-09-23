@@ -43,9 +43,9 @@ def get_data(queries, query_id_type):
                 # "query" : f"{query}",
                 "name": ut.get_name(json),
                 "SMILES": ut.get_SMILES(json),
-                "mol wt" : ut.get_MW(json),
+                "mol wt (g/mol)" : ut.get_MW(json),
                 "CAS" : ut.get_CAS(json),
-                "density" : ut.get_density(json),
+                "density (g/ml)" : ut.get_density(json),
                 "hazard codes" : ', '.join(hcodes)})
         df = df.append(row, ignore_index=True)
     df = df.set_index("name")
