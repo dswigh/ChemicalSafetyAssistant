@@ -7,9 +7,11 @@ query_id_type = st.selectbox("query type", query_id_types)
 
 if len(query) > 0 :
 
-    df, hcode_descriptions, hcode_pics = get_data(query, query_id_type)
+    df, hcode_descriptions, hcode_pics, structure_pic = get_data(query, query_id_type)
 
     st.header(f'Information on {query}:')
+
+    st.image(structure_pic)
 
     st.write(df)
 

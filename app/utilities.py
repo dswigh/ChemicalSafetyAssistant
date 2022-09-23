@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 import json
+import re
 
 from rdkit import Chem
 from rdkit.Chem.Draw import IPythonConsole
@@ -139,7 +140,12 @@ def get_density(data):
                         if (path_2[k]['TOCHeading'] == 'Density'):
                             result = path_2[k]['Information'][0]['Value']['StringWithMarkup'][0]['String']
                             # print('Density: ' + result)
+    # result = remove_source(result)
     return result
+
+# def remove_source(result):
+
+
 
 
 def get_moles(data,mass):
@@ -148,10 +154,11 @@ def get_moles(data,mass):
     return moles
 
 
-def display_structure(data):
+def get_structure_image(data):
     smiles = get_SMILES(data)
     mol = Chem.MolFromSmiles(smiles)
     image = Draw.MolToImage(mol) # generates PIL image object
-    image.show()
+    return image
+    # image.show()
     # rdkit.Chem.Draw.MolToMPL(mol) # plot using rdkit 
 
