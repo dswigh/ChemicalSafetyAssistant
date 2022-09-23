@@ -1,9 +1,8 @@
 import streamlit as st
 from backend import get_data, parse_query
 from utilities import query_id_types
+from utilities import UnknownChemical
 
-class UnknownChemical(Exception):
-    pass
 
 st.title("Chemical Safety Assistant")
 #st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")
@@ -18,6 +17,10 @@ if len(queries) > 0:
     try:
         df, hcode_descriptions, hcode_pics, structure_pics = get_data(queries, query_id_type)
     except IndexError:
+        message = 'The chemicals were not recognised. Please check your spelling and separate chemicals by a comma ","'
+        original_title = f'<p style="font-family:sans-serif; color:Red; font-size: 18px;">{message}</p>'
+        st.markdown(original_title, unsafe_allow_html=True)
+        #st.write(message)
         raise UnknownChemical("Please check your spelling.")
 
 

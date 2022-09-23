@@ -5,9 +5,11 @@ from requests_html import HTMLSession
 import json
 import cirpy
 
+class UnknownChemical(Exception):
+    pass
 
 
-query_id_types = ['name', 'CAS', 'smiles', 'sdf', 'inchi', 'inchikey', 'formula', 'cid']
+query_id_types = ['name', 'CAS', 'smiles', 'sdf', 'inchi', 'inchikey', 'cid']
 
 def get_url(cid):
     
