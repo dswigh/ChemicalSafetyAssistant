@@ -1,17 +1,23 @@
 import streamlit as st
 from backend import get_data, parse_query
 from utilities import query_id_types
+from utilities import UnknownChemical
 
-st.title("Virtual Safety Assistant")
-st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")
+st.title("Chemical Safety Assistant")
+#st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")
+st.write("Type in the chemicals of your reaction to see the associated hazard codes, as well as other relevant data. Missing data cells will be blank")
 
-orig_query = st.text_input("query", value="")
-query_id_type = st.selectbox("query type", query_id_types)
+orig_query = st.text_input('Write one or more chemical names separated by a , (for example "benzene, triethylamine")', value="")
+query_id_type = st.selectbox("Chemical identifier", query_id_types)
 queries = parse_query(orig_query)
 
-if len(queries) > 0: 
 
-    df, hcode_descriptions, hcode_pics, structure_pics = get_data(queries, query_id_type)
+if len(queries) > 0: 
+    try:
+        df, hcode_descriptions, hcode_pics, structure_pics = get_data(queries, query_id_type)
+    except IndexError:
+        raise UnknownChemical("Please check your spelling.")
+
 
     st.header(f'Information on {orig_query}:')
 

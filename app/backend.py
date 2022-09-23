@@ -4,7 +4,7 @@ from json import JSONDecodeError
 import re
 
 
-col_names = ["name", "mol wt", "CAS", "density", "hazard codes"]
+col_names = ["name", "CAS", "mol wt", "density", "hazard codes"]
 
 
 def get_data(queries, query_id_type):
