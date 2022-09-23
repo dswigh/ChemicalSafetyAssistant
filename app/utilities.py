@@ -158,6 +158,10 @@ def get_moles(data,mass):
     moles = mass/mw
     return moles
 
+def get_mass(data,moles):
+    mw = get_MW(data)
+    mass = moles/mw
+    return mass
 
 def get_structure_image(data):
     try:

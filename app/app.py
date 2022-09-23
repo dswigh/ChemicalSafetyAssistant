@@ -13,6 +13,18 @@ query_id_type = st.selectbox("Chemical identifier", query_id_types)
 queries = parse_query(orig_query)
 
 
+mass_query = st.checkbox('Include mass calculation?')
+if mass_query:
+    moles = []
+    for i in len(queries):
+        moles[i] = st.text_input('Moles of compound' + str(i))
+else:
+    moles = None
+    
+    
+
+
+
 if len(queries) > 0: 
     try:
         df, hcode_descriptions, hcode_pics, structure_pics = get_data(queries, query_id_type)
