@@ -3,14 +3,9 @@ from backend import get_data, parse_query
 from utilities import query_id_types
 from utilities import UnknownChemical
 
-
-with open("logo.png", "rb") as image:
-  f = image.read()
-  b = bytearray(f)
-
 cols = st.columns(4)
 with cols[-1]:
-    st.image(b)
+    st.image('logo.png')
 
 st.title("Chemical Safety Assistant")
 #st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")
