@@ -7,7 +7,7 @@ import re
 import cirpy
 
 from rdkit import Chem
-from rdkit.Chem.Draw.MolToImage 
+import rdkit.Chem.Draw.MolToImage 
 from PIL import Image
 
 class UnknownChemical(Exception):
