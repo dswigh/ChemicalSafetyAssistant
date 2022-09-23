@@ -4,6 +4,12 @@ from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 import json
 
+from rdkit import Chem
+from rdkit.Chem.Draw import IPythonConsole
+from rdkit.Chem import Draw
+from PIL import Image
+
+
 query_id_types = ['name', 'smiles', 'sdf', 'inchi', 'inchikey', 'formula', 'cid']
 
 def get_url(cid):
@@ -140,3 +146,12 @@ def get_moles(data,mass):
     mw = get_MW(data)
     moles = mass/mw
     return moles
+
+
+def display_structure(data):
+    smiles = get_SMILES(data)
+    mol = Chem.MolFromSmiles(smiles)
+    image = Draw.MolToImage(mol) # generates PIL image object
+    image.show()
+    # rdkit.Chem.Draw.MolToMPL(mol) # plot using rdkit 
+
