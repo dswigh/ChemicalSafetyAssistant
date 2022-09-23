@@ -22,6 +22,10 @@ def get_url(cid):
     return url
 
 
+def get_structure_picture_url(cid):
+    url = f'https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid={cid}&t=l'
+    return url
+
 def _get_cid(identifier, id_type):
     
     assert id_type in query_id_types 
