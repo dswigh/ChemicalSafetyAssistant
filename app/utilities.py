@@ -8,6 +8,7 @@ import cirpy
 
 from rdkit import Chem
 from rdkit.Chem.Draw import IPythonConsole
+import cv2
 from rdkit.Chem import Draw
 from PIL import Image
 
