@@ -4,14 +4,17 @@ from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 import json
 import re
+import cirpy
 
 from rdkit import Chem
 from rdkit.Chem.Draw import IPythonConsole
 from rdkit.Chem import Draw
 from PIL import Image
 
+class UnknownChemical(Exception):
+    pass
 
-query_id_types = ['name', 'smiles', 'sdf', 'inchi', 'inchikey', 'formula', 'cid']
+query_id_types = ['name', 'CAS', 'smiles', 'sdf', 'inchi', 'inchikey', 'formula', 'cid']
 
 def get_url(cid):
     
@@ -26,6 +29,11 @@ def _get_cid(identifier, id_type):
     
     if id_type == 'cid':
         return identifier
+    
+    elif id_type == 'CAS':
+        id = cirpy.resolve(identifier, 'inchi')
+        cid = pcp.get_cids(id, 'inchi')
+        return cid[0]
     
     else:
         cid = pcp.get_cids(identifier, id_type)
