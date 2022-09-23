@@ -1,7 +1,9 @@
 import streamlit as st
 from backend import get_data, parse_query
 from utilities import query_id_types
-from utilities import UnknownChemical
+
+class UnknownChemical(Exception):
+    pass
 
 st.title("Chemical Safety Assistant")
 #st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")

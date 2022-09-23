@@ -3,14 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 import json
-import re
 import cirpy
 
 
-from PIL import Image
-
-class UnknownChemical(Exception):
-    pass
 
 query_id_types = ['name', 'CAS', 'smiles', 'sdf', 'inchi', 'inchikey', 'formula', 'cid']
 
