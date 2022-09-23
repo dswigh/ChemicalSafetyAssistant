@@ -60,9 +60,12 @@ def get_data(queries, query_id_type):
 
 def parse_out_percentages(all_desc):
     desc_out = []
-    pat = re.compile(r'(\([\d.%]+\))')
+    pat1 = re.compile(r'(\([\d.%]+\))')
+    pat2 = re.compile(r'(H\d+\+H\d+)')
     for desc in all_desc:
-        percentage = pat.search(desc).groups()[0]
+        if pat2.search(desc) is not None:
+            continue
+        percentage = pat1.search(desc).groups()[0]
         desc = desc.replace(percentage, "")
         desc_out.append(desc)
     print(desc_out)
