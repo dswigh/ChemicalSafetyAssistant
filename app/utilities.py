@@ -73,7 +73,8 @@ def get_hazard_info(data):
 
 def get_name(data):
     mol_name = data['Record']['RecordTitle']
-    print('Molecule name: ' + mol_name)
+    # print('Molecule name: ' + mol_name)
+    return mol_name
 
 
 def get_SMILES(data):
