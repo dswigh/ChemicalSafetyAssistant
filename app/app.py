@@ -1,30 +1,27 @@
 import streamlit as st
-from backend import get_data
-from utilities import query_id_types
+from backend import get_fake_data
 
-query = st.text_input("query", value="")
-query_id_type = st.selectbox("query type", query_id_types)
+st.title("Virtual Safety Assistant")
+st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")
 
-if len(query) > 0 :
+name = st.text_input("Reagents:", value="")
 
-    df, hcode_descriptions, hcode_pics = get_data(query, query_id_type)
+if len(name) > 0 :
+    
+    d = get_fake_data(name) 
 
-    st.header(f'Information on {query}:')
+    st.subheader(f'Information on {name}:')
 
-    st.write(df)
-
-    if len(hcode_descriptions) > 0:
-        with st.expander(f'Hazard code explanations'):
-        
-            cols = st.columns(len(hcode_pics))
-            for img, col in zip(hcode_pics, cols):
-                with col:
-                    st.image(img)
-
-            for expl in hcode_descriptions:
-                st.write(expl)
+    st.text(f'Chemical name: {d.name}')
+    st.text(f'CAS number: {d.cas_number}')
+    st.text(f'Molecular weight: {d.mol_wt} g/mol')
+    st.text(f'Density: {d.density} g/ml')
+    st.text(f'Hazard codes: {d.hazard_codes}')
 
 else:
     print('Enter chemical name to find information')
+    
+
+
 
 
