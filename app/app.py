@@ -1,5 +1,5 @@
 import streamlit as st
-from backend import get_data, parse_query
+from backend import get_data, parse_query, get_moles
 from utilities import query_id_types
 from utilities import UnknownChemical
 
@@ -17,20 +17,12 @@ queries = parse_query(orig_query)
 
 
 mass_query = st.checkbox('Include mass calculation?')
-if mass_query:
-    moles = []
-    for i in len(queries):
-        moles[i] = st.text_input('Moles of compound' + str(i))
-else:
-    moles = None
-    
-    
-
+moles = get_moles(mass_query, queries)
 
 
 if len(queries) > 0: 
     try:
-        df, hcode_descriptions, hcode_pics, structure_pics = get_data(queries, query_id_type)
+        df, hcode_descriptions, hcode_pics, structure_pics = get_data(queries, query_id_type, moles)
     except IndexError:
         message = 'The chemicals were not recognised. Please check your spelling and separate chemicals by a comma and a space ", "'
         original_title = f'<p style="font-family:sans-serif; color:Red; font-size: 18px;">{message}</p>'

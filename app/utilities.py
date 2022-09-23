@@ -159,7 +159,7 @@ def get_moles(data,mass):
     return moles
 
 def get_mass(data,moles):
-    mw = get_MW(data)
+    mw = float(get_MW(data))
     mass = moles/mw
     return mass
 

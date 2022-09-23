@@ -1,13 +1,31 @@
 import pandas as pd
+import numpy as np
 import utilities as ut
 from json import JSONDecodeError
 import re
+import streamlit as st
 
 
 col_names = ["name", "CAS", "mol wt (g/mol)", "density (g/ml)", "hazard codes"]
 
+def get_moles(mass_query, queries):
 
-def get_data(queries, query_id_type):
+    if mass_query:
+        moles = []
+        for i in queries:
+            amount = st.text_input(f'Amount of compound {i} (mol)', value="")
+            if amount != "":
+                amount = float(amount)
+                moles.append(amount)
+    else:
+        moles = [None] * len(queries)
+
+    if np.any(moles == None):
+        moles = [None] * len(queries)
+
+    return moles 
+
+def get_data(queries, query_id_type, moles):
 
     df = pd.DataFrame(columns=col_names) 
     structure_images = []
@@ -15,7 +33,10 @@ def get_data(queries, query_id_type):
     all_hcode_desc = []
     all_hazard_pics = []
 
-    for query in queries:
+    if moles is None:
+        moles = [None] * len(queries)
+
+    for query, mole in zip(queries, moles):
         # get data
         cid = ut._get_cid(query, query_id_type)
         url = ut.get_url(cid)
@@ -37,16 +58,23 @@ def get_data(queries, query_id_type):
         all_hcode_desc += hdescriptions
         all_hazard_pics += hazard_pics
 
-        # add stuff to the table
-        row = pd.Series(
-            {   
+        data_dict = {   
                 # "query" : f"{query}",
                 "name": ut.get_name(json),
                 "SMILES": ut.get_SMILES(json),
                 "mol wt (g/mol)" : ut.get_MW(json),
                 "CAS" : ut.get_CAS(json),
                 "density (g/ml)" : ut.get_density(json),
-                "hazard codes" : ', '.join(hcodes)})
+                "hazard codes" : ', '.join(hcodes)}
+
+        if mole is not None:
+            data_dict["amount (mol)"] = mole
+            data_dict["mass (g)"] = ut.get_mass(json, mole)
+
+
+        # add stuff to the table
+        row = pd.Series(data_dict)
+
         df = df.append(row, ignore_index=True)
     df = df.set_index("name")
 
