@@ -17,14 +17,16 @@ def get_data(queries, query_id_type):
 
     for query in queries:
         # get data
-        url = ut.get_url(ut._get_cid(query, query_id_type))
+        cid = ut._get_cid(query, query_id_type)
+        url = ut.get_url(cid)
         try:
             json = ut.get_json(url)
         except JSONDecodeError:
             raise RuntimeError("Faulty response from PubChem: could not decode the JSON")
 
         hcodes, hdescriptions, hazard_pics = ut.get_hazard_info(json)
-        structure_images.append(ut.get_structure_image(json))
+        # structure_images.append(ut.get_structure_image(json))
+        structure_images.append(ut.get_structure_picture_url(cid))
 
         if hcodes is None:
             hcodes = ["None found"]

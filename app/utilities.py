@@ -6,8 +6,7 @@ import json
 import re
 import cirpy
 
-from rdkit import Chem
-from rdkit.Chem import Draw
+
 from PIL import Image
 
 class UnknownChemical(Exception):
@@ -164,6 +163,11 @@ def get_moles(data,mass):
 
 
 def get_structure_image(data):
+    try:
+        from rdkit import Chem
+        from rdkit.Chem import Draw
+    except:
+        return
     smiles = get_SMILES(data)
     mol = Chem.MolFromSmiles(smiles)
     image = Draw.MolToImage(mol) # generates PIL image object
