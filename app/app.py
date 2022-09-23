@@ -4,6 +4,14 @@ from utilities import query_id_types
 from utilities import UnknownChemical
 
 
+with open("logo.png", "rb") as image:
+  f = image.read()
+  b = bytearray(f)
+
+cols = st.columns(4)
+with cols[-1]:
+    st.image(b)
+
 st.title("Chemical Safety Assistant")
 #st.write("Given a list of chemicals, this program will automatically return the relevant information you need for your safety assessment")
 st.write("Type in the chemicals of your reaction to see the associated hazard codes as well as other relevant data. Missing data cells will be blank.")
@@ -45,8 +53,9 @@ if len(queries) > 0:
             for expl in hcode_descriptions:
                 st.write(expl)
 
-else:
-    print('Enter chemical name to find information')
+
+st.markdown("---")
+st.markdown("Ran into problems? Raise an issue on [CSA's GitHub page](https://github.com/dswigh/ChemicalSafetyAssistant)")
     
 
 
